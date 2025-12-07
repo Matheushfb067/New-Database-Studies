@@ -1,0 +1,16 @@
+# Diretórios de configuração do DataGrip/IntelliJ
+.idea/
+*.iml
+
+# Arquivos temporários
+*.log
+*.tmp
+*.cache
+
+# Configuração local do banco (se houver)
+*.db
+*.sqlite
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

@@ -1,0 +1,109 @@
+drop database if exists cadastro;
+
+create database cadastro
+default character set utf8
+default collate utf8mb3_general_ci;
+
+use cadastro;
+
+create table pessoas(
+    id int not null auto_increment,
+    nome varchar(30) not null,
+    nascimento date,
+    sexo enum('M', 'F'),
+    peso decimal(5,2),
+    altura decimal(3,2),
+    nascionalidade varchar(30) default 'Brasil', -- se não for digitado nada, por padrão é brasil
+
+    primary key (id)
+)default charset = utf8;
+
+create table if not exists cursos (
+    nome varchar(30) not null unique,
+    descricao text,
+    carga int unsigned,
+    totalAulas int,
+    ano year default '2016'
+)default charset = utf8;
+
+alter table cursos
+add column idcurso int first;
+
+alter table cursos
+add primary key (idcurso);
+
+desc cursos;
+
+-- desc pessoas; -- Mostra a estrutura da tabela
+
+-- Diferentemente das NOTAS abaixo, por conta de ID ser auto_increment, não é necessario especifica-lo!
+-- Melhor Pratica!
+-- Exemplo correto abaixo:
+
+insert into pessoas values
+(default, 'Godofredo', '1984-01-02', 'M', 78.5, 1.75, 'Brasil'),
+(DEFAULT, 'Ana' , '1975-12-22' , 'F' , '52.3' , '1.45' , 'EUA' ),
+(DEFAULT, 'Pedro' , '2000-07-15' , 'M' , '52.3' , '1.45' , 'Brasil' ),
+(DEFAULT, 'Maria' , '1999-05-30' , 'F' , '75.9' , '1.70' , 'Portugal' );
+
+-- desc pessoas;
+
+-- alterando a tabela e adicionando a coluna de profissão
+alter table pessoas
+add column profissao varchar(10);
+
+-- desc pessoas;
+
+alter table pessoas
+drop column profissao;  -- também podemos usar o drop para deleter uma coluna
+
+alter table pessoas
+add column profissao varchar(10) after nome; -- não existe before, somente after!
+
+alter table pessoas
+modify column profissao varchar(30); -- a quantidade de caracteres foi alterada para 30
+
+alter table pessoas
+change profissao prof varchar(30) ; -- muda o nome de profissão para prof
+
+-- desc pessoas;
+
+-- select * from pessoas -- selecione tudo de pessoas ( <- pseudo explicação)
+
+
+
+
+
+
+
+
+
+-- --------------------------------------------------------------------------------
+-- NOTAS:
+/*
+insert into pessoas
+(id, nome, nascimento, sexo, peso, altura, nascionalidade)
+values
+(1, 'Godofredo', '1984-01-02', 'M', 78.5, 1.75, 'Brasil');
+
+/* é permitido usar o default no id, caso você queira um novo ID porem não sabe qual está definido por
+conta de ser auto_increment, o mesmo pode ser feito com a variavel nascionalidade uma vez que ele tem
+um valor pré-definido, como no exemplo abaixo:
+
+insert into pessoas
+(id, nome, nascimento, sexo, peso, altura, nascionalidade)
+values
+(default 'Godofredo', '1984-01-02', 'M', 78.5, 1.75, default);
+
+-- -------------------------------------------------------------------------------------
+Eu também posso adicionar uma nova coluna como o primeiro campo do meu baco de dados:
+
+alter table pessoas
+add column profissao varchar(10) first;
+
+-- -------------------------------------------------------------------------------------
+
+/* Muda o nome da tablema inteira
+alter table pessoas
+rename to person;
+ */
