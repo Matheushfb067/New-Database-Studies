@@ -32,10 +32,6 @@ add column idcurso int first;
 alter table cursos
 add primary key (idcurso);
 
-desc cursos;
-
--- desc pessoas; -- Mostra a estrutura da tabela
-
 -- Diferentemente das NOTAS abaixo, por conta de ID ser auto_increment, não é necessario especifica-lo!
 -- Melhor Pratica!
 -- Exemplo correto abaixo:
@@ -46,13 +42,9 @@ insert into pessoas values
 (DEFAULT, 'Pedro' , '2000-07-15' , 'M' , '52.3' , '1.45' , 'Brasil' ),
 (DEFAULT, 'Maria' , '1999-05-30' , 'F' , '75.9' , '1.70' , 'Portugal' );
 
--- desc pessoas;
-
 -- alterando a tabela e adicionando a coluna de profissão
 alter table pessoas
 add column profissao varchar(10);
-
--- desc pessoas;
 
 alter table pessoas
 drop column profissao;  -- também podemos usar o drop para deleter uma coluna
@@ -66,16 +58,42 @@ modify column profissao varchar(30); -- a quantidade de caracteres foi alterada 
 alter table pessoas
 change profissao prof varchar(30) ; -- muda o nome de profissão para prof
 
--- desc pessoas;
+-- Erros propositais para manipulação de linhas
+insert into cursos values
+('1','HTML4','Curso de HTML5','40','37','2014'),
+('2','Algoritmos','Lógica de Programação','20','15','2014'),
+('3','Photoshop','Dicas de Photoshop CC','10','8','2014'),
+('4','PGP','Curso de PHP para iniciantes','40','20','2010'),
+('5','Jarva','Introdução à Linguagem Java','10','29','2000'),
+('6','MySQL','Bancos de Dados MySQL','30','15','2016'),
+('7','Word','Curso completo de Word','40','30','2016'),
+('8','Sapateado','Danças Rítmicas','40','30','2018'),
+('9','Cozinha Árabe','Aprenda a fazer Kibe','40','30','2018'),
+('10','YouTuber','Gerar polêmica e ganhar inscritos','5','2','2018');
 
--- select * from pessoas -- selecione tudo de pessoas ( <- pseudo explicação)
+-- MANIPULAÇÃO DE LINHAS/REGISTROS DA TABELA:
 
+-- Correção de HTML4 para HTML5
+update cursos
+set nome = 'HMTL5'
+where idcurso = 1;
 
+-- Correção nome PGP para PHP e o ano 2010 para 2015
+update cursos
+set nome = 'PHP', ano = '2015'
+where idcurso = 4;
 
+-- Correção nome Jarva para Java, Carga 10 para 40 e o ano de 2000 para 2015
+update cursos
+set nome = 'Java', carga = 40, ano = 2015
+where idcurso = 5
+limit 1; -- limita a quantidade de linhas que posso mexer
 
+delete from cursos
+where ano  = 2018
+limit 2;
 
-
-
+select * from cursos
 
 
 -- --------------------------------------------------------------------------------
