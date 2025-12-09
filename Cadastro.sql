@@ -237,7 +237,7 @@ select sum(totalAulas) from cursos
 where ano = 2016;
 
 select avg(totalAulas) from cursos
-where ano = 2016
+where ano = 2016;
 
 select totalAulas from cursos
 group by totalAulas;
@@ -254,7 +254,57 @@ select carga, count(nome) from cursos
 where totalAulas = 20
 group by carga;
 
+select ano, count(*) from cursos
+group by ano
+having count(ano) >= 2;
 
+select ano, count(*) from cursos
+where totalAulas > 30
+group by ano
+having count(ano) >= 2
+order by count(*) desc;
+
+select avg(carga) from cursos; -- mostra a media de horas dos cursos
+
+select carga, count(*) from cursos
+where ano > 2015
+group by carga
+having carga > (select avg(carga) from cursos); -- junção de dois selects!
+
+alter table pessoas add column cursopreferido int;
+
+alter table pessoas
+add foreign key (cursopreferido)
+references cursos(idcurso);
+
+desc pessoas;
+
+select * from pessoas;
+select * from cursos;
+
+update pessoas set cursopreferido = 6
+where id = 1;
+
+select * from pessoas;
+
+select nome, cursopreferido from pessoas;
+select nome, ano from cursos;
+
+select pessoas.nome, pessoas.cursopreferido, cursos.nome, cursos.ano
+from pessoas
+join cursos;
+
+-- mostra agora de forma mais organizada o curso preferido de qualquer pessoa
+select pessoas.nome, cursos.nome, cursos.ano
+from pessoas join cursos
+on cursos.idcurso = pessoas.cursopreferido -- on define como duas tabelas se relacionan em uma junção
+order by pessoas.nome;
+
+-- Mesma bloco de cima, mas com uma melhor pratica de apelidar os comandos visando encurtar os nomes dos atributos!
+select p.nome, c.nome, c.ano
+from pessoas as p join cursos as c
+on c.idcurso = p.cursopreferido -- on define como duas tabelas se relacionan em uma junção
+order by p.nome;
 -- --------------------------------------------------------------------------------
 -- NOTAS:
 /*
